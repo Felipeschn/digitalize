@@ -1,9 +1,11 @@
 import { Router } from "express";
+import { createUserController } from "./useCases/CreateUser";
 
 const router = Router();
 
-router.get("/register", (req, resp) => {
-  const { email, password } = req.body;
-});
+router.post(
+  "/register",
+  async (req, resp) => await createUserController.handle(req, resp)
+);
 
 export { router };
