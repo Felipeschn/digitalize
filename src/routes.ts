@@ -1,9 +1,9 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 
 const router = Router();
 
-router.get("/route/:params", (req: Request, resp: Response) => {
-  const {} = req.body;
+router.get("/register", (req, resp) => {
+  const { email, password } = req.body;
 });
 
 export { router };
