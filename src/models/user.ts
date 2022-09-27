@@ -1,4 +1,5 @@
 import { Schema, Document, model } from "mongoose";
+import bcrypt from "bcrypt";
 
 export interface IUserModel extends Document {
   name: string;
@@ -29,15 +30,14 @@ const schema = new Schema<IUserModel>(
       default: Date.now,
     },
   },
-  {
-    toJSON: {
-      transform: (_, ret): void => {
-        ret.id = ret.id;
-        delete ret._id;
-        delete ret.__v;
-      },
-    },
-  }
+  { versionKey: false }
 );
+
+schema.pre("save", async function (next) {
+  const hash = await bcrypt.hash(this.password, 10);
+  this.password = hash;
+
+  next();
+});
 
 export const UserModel = model<IUserModel>("User", schema);
