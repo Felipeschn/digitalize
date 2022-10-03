@@ -1,11 +1,23 @@
+import { Column, Entity, ObjectID, ObjectIdColumn } from "typeorm";
+import { DocFile } from "../entities/DocFile";
+
+@Entity()
 export class User {
-  public readonly id: string;
+  @ObjectIdColumn()
+  userId: ObjectID;
 
-  public name: string;
-  public email: string;
-  public password: string;
+  @Column()
+  firstName: string;
 
-  constructor(props: Omit<User, "id">, id?: string) {
-    Object.assign(this, props);
-  }
+  @Column()
+  lastName: string;
+
+  @Column()
+  email: string;
+
+  @Column()
+  password: string;
+
+  @Column(() => DocFile)
+  documents: DocFile[];
 }

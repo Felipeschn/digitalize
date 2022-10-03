@@ -15,8 +15,8 @@ router.post(
   async (req, resp) => await authSessionController.handle(req, resp)
 );
 
-router.get("/test", authMiddleware, async (req, res) => {
-  res.send({
+router.get("/test", authMiddleware, async (req, resp) => {
+  resp.send({
     ok: true,
   });
 });

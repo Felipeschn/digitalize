@@ -7,9 +7,9 @@ export function authMiddleware(
   next: NextFunction
 ): Response {
   const authHeader = req.headers.authorization;
-  const parts = authHeader.split(" ");
-
   if (!authHeader) return res.status(401).send({ error: "No token provided" });
+
+  const parts = authHeader.split(" ");
   if (!(parts.length === 2))
     return res.status(401).send({ error: "Token error" });
 
