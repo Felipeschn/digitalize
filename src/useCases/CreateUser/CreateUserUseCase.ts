@@ -1,15 +1,13 @@
 import { User } from "../../entities/User";
-import { IUsersRepository } from "../../repositories/IUsersRepository";
+import { userRepository } from "../../repositories/implementations/UserRepository";
 import AuthService from "../../services/auth";
 import { ICreateUserDTO } from "./CreateUserDTO";
 
 export class CreateUserUseCase {
-  constructor(private usersRepository: IUsersRepository) {}
+  constructor() {}
   async execute(data: ICreateUserDTO) {
     const { firstName, lastName, email, password } = data;
-    const emailAlreadyExists = await this.usersRepository.findByEmail(email);
-    console.log(emailAlreadyExists);
-
+    const emailAlreadyExists = await userRepository.findOneBy({ email });
     if (emailAlreadyExists) throw new Error("Email already exists.");
 
     const user = new User();
@@ -17,7 +15,8 @@ export class CreateUserUseCase {
     user.lastName = lastName;
     user.email = email.toLowerCase();
     user.password = await AuthService.hashPassword(password);
+    user.createdAt = new Date();
 
-    await this.usersRepository.save(user);
+    await userRepository.save(user);
   }
 }

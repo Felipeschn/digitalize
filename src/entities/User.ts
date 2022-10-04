@@ -1,10 +1,16 @@
-import { Column, Entity, ObjectID, ObjectIdColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { DocFile } from "../entities/DocFile";
 
-@Entity()
+@Entity("users")
 export class User {
-  @ObjectIdColumn()
-  userId: ObjectID;
+  @PrimaryGeneratedColumn("uuid")
+  userId: string;
 
   @Column()
   firstName: string;
@@ -18,6 +24,9 @@ export class User {
   @Column()
   password: string;
 
-  @Column(() => DocFile)
+  @OneToMany(() => DocFile, (docFile) => docFile.user)
   documents: DocFile[];
+
+  @CreateDateColumn()
+  createdAt: Date;
 }
