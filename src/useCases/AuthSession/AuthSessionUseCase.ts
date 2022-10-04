@@ -1,13 +1,13 @@
-import { IAuthRepository } from "../../repositories/IAuthRepository";
+import { userRepository } from "../../repositories/implementations/UserRepository";
 import AuthService from "../../services/auth";
 import { IAuthSessionDTO } from "./AuthSessionDTO";
 
 export class AuthSessionUseCase {
-  constructor(private authRepository: IAuthRepository) {}
+  constructor() {}
   async execute(data: IAuthSessionDTO) {
     const { email, password } = data;
 
-    const user = await this.authRepository.findUserByEmail(email);
+    const user = await userRepository.findOneBy({ email });
     if (!user) throw new Error("User not found!");
     if (!(await AuthService.comparePasswords(password, user.password)))
       throw new Error("Invalid password!");
