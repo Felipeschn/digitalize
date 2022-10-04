@@ -1,31 +1,34 @@
-import { Column, ObjectID, ObjectIdColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { User } from "./User";
 
-export enum docType {
-  ADMIN = "admin",
-  EDITOR = "editor",
-  GHOST = "ghost",
-}
-
+@Entity("docFiles")
 export class DocFile {
-  @ObjectIdColumn()
-  documentId: ObjectID;
+  @PrimaryGeneratedColumn("uuid")
+  docFileId: string;
 
   @Column()
   title: string;
 
-  @Column({ type: "enum", enum: docType, default: 1 })
+  @Column()
   docType: number;
 
   @Column()
   bucketUrl: string;
 
-  @Column()
-  expiresAt?: Date;
+  @ManyToOne(() => User, (user) => user.documents)
+  @JoinColumn({ name: "users_userId" })
+  user: User;
 
-  @Column()
+  @CreateDateColumn({ nullable: true })
+  expiresAt: Date;
+
+  @CreateDateColumn()
   createdAt: Date;
-
-  constructor(props: DocFile) {
-    Object.assign(this, props);
-  }
 }
