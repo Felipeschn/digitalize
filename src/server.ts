@@ -1,24 +1,15 @@
-import { app } from "./app";
-import "reflect-metadata";
-import "dotenv/config";
-import { DataSource } from "typeorm";
-import { connectDB } from "./repositories/database";
+import express from "express";
+import { AppDataSource } from "./repositories/database";
+import { router } from "./routes";
 
-export const AppDataSource = new DataSource({
-  type: "mongodb",
-  url: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@digitalize.sg1nusm.mongodb.net/?retryWrites=true&w=majority`,
-  useNewUrlParser: true,
-  synchronize: true,
-  logging: true,
-  entities: ["src/entities/*.*"],
-  useUnifiedTopology: true,
-  writeConcern: {
-    j: true,
-  },
-});
+AppDataSource.initialize()
+  .then(() => {
+    const app = express();
+    app.use(express.json());
+    app.use(router);
 
-connectDB().then(() => {
-  app.listen(process.env.PORT, () =>
-    console.log(`Server started at port:${process.env.PORT} ✔`)
-  );
-});
+    return app.listen(process.env.PORT, () =>
+      console.log(`Server started at port ${process.env.PORT} ✔`)
+    );
+  })
+  .catch((err) => console.log("Unable to connect to database:", err));
