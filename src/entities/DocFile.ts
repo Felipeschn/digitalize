@@ -8,6 +8,12 @@ import {
 } from "typeorm";
 import { User } from "./User";
 
+export enum DocType {
+  GENERIC = "generic",
+  PASSPORT = "passport",
+  DRIVER_LICENSE = "driver_license",
+}
+
 @Entity("docFiles")
 export class DocFile {
   @PrimaryGeneratedColumn("uuid")
@@ -16,8 +22,11 @@ export class DocFile {
   @Column()
   title: string;
 
-  @Column()
-  docType: number;
+  @Column({
+    type: "enum",
+    enum: DocType,
+  })
+  docType: DocType;
 
   @Column()
   bucketUrl: string;

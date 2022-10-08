@@ -24,7 +24,7 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => DocFile, (docFile) => docFile.user)
+  @OneToMany(() => DocFile, (docFile) => docFile.user, { onDelete: "CASCADE" })
   documents: DocFile[];
 
   @CreateDateColumn()

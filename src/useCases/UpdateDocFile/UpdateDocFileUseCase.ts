@@ -11,6 +11,10 @@ export class UpdateDocFileUseCase {
       docFileId,
     });
 
+    const dateExpiresAt = new Date(expiresAt).getTime();
+    if (dateExpiresAt > new Date().getTime())
+      throw new Error("expiresAt cannot be less than the current date!");
+
     if (!docFileExists) throw new Error("DocFile not found!");
     await this.docFileRepository
       .createQueryBuilder()

@@ -1,13 +1,13 @@
+import { Repository } from "typeorm";
 import { User } from "../../entities/User";
-import { userRepository } from "../../repositories/implementations/UserRepository";
 import AuthService from "../../services/auth";
 import { ICreateUserDTO } from "./CreateUserDTO";
 
 export class CreateUserUseCase {
-  constructor() {}
+  constructor(private userRepository: Repository<User>) {}
   async execute(data: ICreateUserDTO) {
     const { firstName, lastName, email, password } = data;
-    const emailAlreadyExists = await userRepository.findOneBy({ email });
+    const emailAlreadyExists = await this.userRepository.findOneBy({ email });
     if (emailAlreadyExists) throw new Error("Email already exists.");
 
     const user = new User();
@@ -17,6 +17,6 @@ export class CreateUserUseCase {
     user.password = await AuthService.hashPassword(password);
     user.createdAt = new Date();
 
-    await userRepository.save(user);
+    await this.userRepository.save(user);
   }
 }

@@ -1,6 +1,8 @@
+import { DocType } from "../../entities/DocFile";
+
 export interface IUpdateDocFileDTO {
   docFileId: string;
   title: string;
-  docType: number;
+  docType: DocType;
   expiresAt: Date;
 }
