@@ -6,6 +6,9 @@ export class AuthSessionController {
 
   async handle(req: Request, resp: Response): Promise<Response> {
     const { email, password } = req.body;
+    if (!email || !password)
+      return resp.status(422).send({ error: "is properties missing!" });
+
     try {
       const response = await this.authSessionUseCase.execute({
         email,
