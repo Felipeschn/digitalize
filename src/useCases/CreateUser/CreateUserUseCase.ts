@@ -5,7 +5,7 @@ import { ICreateUserDTO } from "./CreateUserDTO";
 
 export class CreateUserUseCase {
   constructor(private userRepository: Repository<User>) {}
-  async execute(data: ICreateUserDTO) {
+  async execute(data: ICreateUserDTO): Promise<void> {
     const { firstName, lastName, email, password } = data;
     const emailAlreadyExists = await this.userRepository.findOneBy({ email });
     if (emailAlreadyExists) throw new Error("Email already exists.");
