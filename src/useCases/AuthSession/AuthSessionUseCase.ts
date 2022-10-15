@@ -15,6 +15,9 @@ export class AuthSessionUseCase {
       throw new Error("Invalid password!");
     user.password = undefined;
 
-    return { token: AuthService.generateToken({ id: user.userId }) };
+    return {
+      userId: user.userId,
+      token: AuthService.generateToken({ id: user.userId }),
+    };
   }
 }

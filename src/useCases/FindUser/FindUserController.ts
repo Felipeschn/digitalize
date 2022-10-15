@@ -5,16 +5,13 @@ export class FindUserController {
   constructor(private findUserUseCase: FindUserUseCase) {}
 
   async handle(req: Request, resp: Response): Promise<Response> {
-    console.log(req.body);
-
-    const { email, password } = req.body;
-    if (!email || !password)
+    const { userId } = req.params;
+    if (!userId)
       return resp.status(422).send({ error: "There is properties missing!" });
 
     try {
       const response = await this.findUserUseCase.execute({
-        email,
-        password,
+        userId,
       });
 
       return resp.status(200).send(response);

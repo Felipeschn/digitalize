@@ -21,7 +21,7 @@ router.post(
   async (req, resp) => await createUserController.handle(req, resp)
 );
 router.get(
-  "/user",
+  "/user/:userId",
   authMiddleware,
   async (req, resp) => await findUserController.handle(req, resp)
 );
