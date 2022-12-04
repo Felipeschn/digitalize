@@ -1,7 +1,10 @@
 import { Router } from "express";
+import multer from "multer";
+import { multerConfig } from "./config/multerConfig";
 import { authMiddleware } from "./middlewares/auth";
 import { authSessionController } from "./useCases/AuthSession";
 import { createDocFileController } from "./useCases/CreateDocFile";
+import { createDocFileUploadController } from "./useCases/CreateDocFileUpload";
 import { createUserController } from "./useCases/CreateUser";
 import { deleteDocFileController } from "./useCases/DeleteDocFile";
 import { findDocFileController } from "./useCases/FindDocFile";
@@ -37,6 +40,13 @@ router.post(
   authMiddleware,
   async (req, resp) => await createDocFileController.handle(req, resp)
 );
+router.post(
+  "/docfile/:userId/upload",
+  authMiddleware,
+  multer(multerConfig).single("file"),
+  async (req, resp) => await createDocFileUploadController.handle(req, resp)
+);
+
 router.put(
   "/docfile/:docFileId/update",
   authMiddleware,
