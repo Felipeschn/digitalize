@@ -9,14 +9,18 @@ export class FindDocFileUseCase {
     private userRepository: Repository<User>
   ) {}
   async execute(data: IFindDocFileDTO): Promise<DocFile[]> {
-    const { userId } = data;
+    const { userId, docType } = data;
 
     const userExists = await this.userRepository.findOneBy({ userId });
     if (!userExists) throw new Error("User not found");
 
     return await this.docFileRepository.find({
       relations: { user: true },
+      order: {
+        createdAt: "DESC",
+      },
       where: {
+        docType,
         user: {
           userId,
         },

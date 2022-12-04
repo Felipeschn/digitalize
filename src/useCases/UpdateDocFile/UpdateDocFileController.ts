@@ -5,16 +5,16 @@ export class UpdateDocFileController {
   constructor(private updateDocFileUseCase: UpdateDocFileUseCase) {}
   async handle(req: Request, resp: Response): Promise<Response> {
     const { docFileId } = req.params;
-    const { title, docType, expiresAt = null } = req.body;
+    const { title, description = "", expiresAt = null } = req.body;
 
-    if (!title || !docType)
+    if (!title)
       return resp.status(422).send({ error: "There is properties missing!" });
 
     try {
       await this.updateDocFileUseCase.execute({
         docFileId,
         title,
-        docType,
+        description,
         expiresAt,
       });
       return resp.status(200).send({ message: "Successfully updated!" });

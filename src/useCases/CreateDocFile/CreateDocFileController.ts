@@ -5,17 +5,19 @@ export class CreateDocFileController {
   constructor(private createDocFileUseCase: CreateDocFileUseCase) {}
 
   async handle(req: Request, resp: Response): Promise<Response> {
-    const { title, docType, expiresAt = null } = req.body;
     const { userId } = req.params;
+    const { title, description = "", docType, expiresAt = null } = req.body;
 
-    if (!title || !docType)
+    if (!userId || !title || !docType)
       return resp.status(422).send({ error: "There is properties missing!" });
 
     try {
       await this.createDocFileUseCase.execute({
         userId,
         title,
+        description,
         docType,
+        bucketUrl: null,
         expiresAt,
       });
       return resp

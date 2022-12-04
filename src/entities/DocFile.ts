@@ -10,6 +10,8 @@ import { User } from "./User";
 
 export enum DocType {
   GENERIC = "generic",
+  DUPLICATE = "duplicate",
+  NOTATION = "notation",
   PASSPORT = "passport",
   DRIVER_LICENSE = "driver_license",
 }
@@ -22,13 +24,16 @@ export class DocFile {
   @Column()
   title: string;
 
+  @Column({ length: "4090" })
+  description: string;
+
   @Column({
     type: "enum",
     enum: DocType,
   })
   docType: DocType;
 
-  @Column()
+  @Column({ nullable: true })
   bucketUrl: string;
 
   @ManyToOne(() => User, (user) => user.documents)
