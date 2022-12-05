@@ -9,9 +9,11 @@ import {
 import { User } from "./User";
 
 export enum DocType {
-  GENERIC = "generic",
   DUPLICATE = "duplicate",
+  RECEIPT = "receipt",
+  CONTRACT = "contract",
   NOTATION = "notation",
+  GENERIC = "generic",
   PASSPORT = "passport",
   DRIVER_LICENSE = "driver_license",
 }
