@@ -4,16 +4,16 @@ import cors from "cors";
 
 import { router } from "./routes";
 
-const allowedOrigins = ["*"];
+// const allowedOrigins = ["*"];
 
-const options: cors.CorsOptions = {
-  origin: allowedOrigins,
-};
+// const options: cors.CorsOptions = {
+//   origin: allowedOrigins,
+// };
 
 AppDataSource.initialize()
   .then(() => {
     const app = express();
-    app.use(cors(options));
+    app.use(cors());
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(router);
