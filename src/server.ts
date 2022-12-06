@@ -4,7 +4,7 @@ import cors from "cors";
 
 import { router } from "./routes";
 
-const allowedOrigins = ["http://localhost:3000"];
+const allowedOrigins = ["*"];
 
 const options: cors.CorsOptions = {
   origin: allowedOrigins,
