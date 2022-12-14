@@ -15,7 +15,7 @@ export class DeleteDocFileUseCase {
 
     if (!docFileExists) throw new Error("DocFile not found!");
 
-    if (docFileExists.bucketUrl.includes("https://")) {
+    if (docFileExists.bucketUrl?.includes("https://")) {
       const s3 = new aws.S3();
 
       s3.deleteObject(
